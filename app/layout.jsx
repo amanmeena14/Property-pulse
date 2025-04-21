@@ -1,6 +1,13 @@
 import Link from "next/link";
 import React from "react";
 import '@/assets/styles/globals.css'
+import Navbar from "@/components/Navbar";
+
+export const metadata={
+  title: 'PropertyPulse | Find The Perfect Rental',
+  description: 'Find your dream rental property',
+  keywords: 'rental, find rentals, find properties'
+};
 
 // Basic Header component
 const Header = () => (
@@ -31,8 +38,9 @@ const Footer = () => (
 // Layout Component that wraps around page content
 const Layout = ({ children }) => {
   return (
-      <html>
+      <html lang='e'>
         <body>
+          <Navbar/>
           <Header />
           <main>{children}</main>
           <Footer />
