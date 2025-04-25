@@ -9,31 +9,31 @@ export const metadata={
   keywords: 'rental, find rentals, find properties'
 };
 
-// Basic Header component
-const Header = () => (
-  <header>
-    <nav>
-      <ul>
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-          <Link href="/about">About</Link>
-        </li>
-        <li>
-          <Link href="/contact">Contact</Link>
-        </li>
-      </ul>
-    </nav>
-  </header>
-);
+// // Basic Header component
+// const Header = () => (
+//   <header>
+//     <nav>
+//       <ul>
+//         <li>
+//           <Link href="/">Home</Link>
+//         </li>
+//         <li>
+//           <Link href="/about">About</Link>
+//         </li>
+//         <li>
+//           <Link href="/contact">Contact</Link>
+//         </li>
+//       </ul>
+//     </nav>
+//   </header>
+// );
 
-// Basic Footer component
-const Footer = () => (
-  <footer>
-    <p>&copy; 2025 Your Company. All rights reserved.</p>
-  </footer>
-);
+// // Basic Footer component
+// const Footer = () => (
+//   <footer>
+//     <p>&copy; 2025 Your Company. All rights reserved.</p>
+//   </footer>
+// );
 
 // Layout Component that wraps around page content
 const Layout = ({ children }) => {
@@ -41,9 +41,7 @@ const Layout = ({ children }) => {
       <html lang='e'>
         <body>
           <Navbar/>
-          <Header />
           <main>{children}</main>
-          <Footer />
         </body>
       </html>
   );
