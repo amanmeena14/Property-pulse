@@ -3,6 +3,7 @@ import React from "react";
 import '@/assets/styles/globals.css'
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AuthProvider from "@/components/AuthProvider";
 
 export const metadata={
   title: 'PropertyPulse | Find The Perfect Rental',
@@ -39,6 +40,7 @@ export const metadata={
 // Layout Component that wraps around page content
 const Layout = ({ children }) => {
   return (
+    <AuthProvider>
       <html lang='e'>
         <body>
           <Navbar/>
@@ -46,6 +48,8 @@ const Layout = ({ children }) => {
           <Footer/>
         </body>
       </html>
+      </AuthProvider>
+      
   );
 };
 
