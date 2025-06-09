@@ -63,28 +63,40 @@ export const POST= async (request)=>{
 
         const imageUploadPromises=[];
 
-        for(const image of images){
-            const imageBuffer=await image.arrayBuffer();
-            const imageArray= Array.from(new Uint8Array(imageBuffer));
-            const imageData=Buffer.from(imageArray);
+        for (const image of images) {
+  try {
+    console.log("Image object:", {
+      name: image.name,
+      type: image.type,
+      size: image.size,
+    });
 
-            //convert the image data to base64
-            const imageBase64=imageData.toString('base64');
+    if (!image || !image.name || !image.type.startsWith("image/")) {
+      console.error("Invalid or non-image file:", image.name);
+      continue; // skip invalid files
+    }
 
-            //make request to upload to cloudinary
-            const result= await cloudinary.uploader.upload(
-                `data:image/png;base64,${imageBase64}`,{
-                    folder: 'propertypulse'
-                }
-            );
+    const imageBuffer = await image.arrayBuffer();
+    const imageArray = Array.from(new Uint8Array(imageBuffer));
+    const imageData = Buffer.from(imageArray);
+    const imageBase64 = imageData.toString("base64");
 
-            imageUploadPromises.push(result.secure_url);
+    const result = await cloudinary.uploader.upload(
+      `data:${image.type};base64,${imageBase64}`,
+      { folder: "propertypulse" }
+    );
 
-            //wait for all images to upload
+    imageUploadPromises.push(result.secure_url);
+  } catch (cloudErr) {
+    console.error("❌ Cloudinary upload failed:", cloudErr);
+    return new Response("Image upload failed", { status: 500 });
+  }
+}
+
+        //wait for all images to upload
             const uploadedImages=await Promise.all(imageUploadPromises);
             //add uploaded images to propertyData object
             propertyData.images= uploadedImages;
-        }
         const newProperty=new Property(propertyData);
         await newProperty.save();
 
