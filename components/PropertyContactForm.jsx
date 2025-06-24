@@ -1,10 +1,70 @@
+'use client';
 import React from 'react'
+import { useState } from 'react';
 import { FaPaperPlane } from 'react-icons/fa'
-const PropertyContactForm = () => {
+import { toast } from 'react-toastify';
+import { useSession } from 'next-auth/react';
+
+
+const PropertyContactForm = ({property}) => {
+  const {data:session}=useSession();
+  const [name,setName]=useState('');
+  const [email,setEmail]=useState('');
+  const [message,setMessage]=useState('');
+  const [phone,setPhone]=useState('');
+  const [wasSubmmited,setWasSubmmited]=useState(false);
+
+  const handleSubmit=async(e)=>{
+    e.preverntDfault();
+    const data={
+      name,
+      email,
+      phone,
+      message,
+      recipient: property.owner,
+      property: property._id
+    }
+
+    try {
+      const res=await fetch('/api/message',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(data)
+      }); 
+
+      if(res.status===200){
+        toast.success('Message sent successfully')
+        setWasSubmmited(true);
+      }
+      else if(res.status===400 || res.status===401){
+        const dataObj=await res.json();
+        toast.error(dataObj.message);
+      }
+      else{
+        toast.error('Error sending form');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Error sending form')
+    }
+    finally{
+      setName('');
+      setEmail('');
+      setPhone('');
+      setMessage('');
+      setName('');
+    }
+  }
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-bold mb-6">Contact Property Manager</h3>
-              <form>
+              {!session? (<p>You must be logged in to send a message</p>):(
+                wasSubmmited?(
+                'Your message has been sent successfully'
+              ):(
+                 <form onSubmit={handleSubmit}>
               <div className='mb-4'>
                 <label
                   className='block text-gray-700 text-sm font-bold mb-2'
@@ -18,6 +78,8 @@ const PropertyContactForm = () => {
                   type='text'
                   placeholder='Enter your name'             
                   required
+                  value={name}
+                  onChange={(e)=> setName(e.target.value)}
                 />
               </div>
                 <div className="mb-4">
@@ -33,6 +95,8 @@ const PropertyContactForm = () => {
                     type="email"
                     placeholder="Enter your email"
                     required
+                    value={email}
+                  onChange={(e)=> setEmail(e.target.value)}
                   />
                 </div>
                 <div className='mb-4'>
@@ -47,6 +111,8 @@ const PropertyContactForm = () => {
                     id='phone'
                     type='text'
                     placeholder='Enter your phone number'
+                    value={phone}
+                  onChange={(e)=> setPhone(e.target.value)}
                   />
                 </div>
                 <div className="mb-4">
@@ -60,6 +126,8 @@ const PropertyContactForm = () => {
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 h-44 focus:outline-none focus:shadow-outline"
                     id="message"
                     placeholder="Enter your message"
+                    value={message}
+                  onChange={(e)=> setMessage(e.target.value)}
                   ></textarea>
                 </div>
                 <div>
@@ -71,6 +139,10 @@ const PropertyContactForm = () => {
                   </button>
                 </div>
               </form>
+              )
+              )}
+              
+             
             </div>
   )
 }
