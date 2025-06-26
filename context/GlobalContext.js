@@ -4,7 +4,7 @@ import { createContext,useContext,useState } from "react"
 const GlobalContext=createContext();
 
 //create a provider
-export function GloabalProvider({children}){
+export function GlobalProvider({children}){
     const [unreadCount,setUnreadCount]=useState(0);
     return (
         <GlobalContext.Provider 

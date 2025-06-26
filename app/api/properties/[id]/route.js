@@ -26,7 +26,7 @@ export const DELETE = async (request,{params})=>{
         const propertyId=params.id;
         const sessionUser =await getSessionUser();
 
-        if(!session || !session.userId){
+        if(!sessionUser || !sessionUser.userId){
             return new Response('User Id is required',{status:401});
         }
 
@@ -39,7 +39,7 @@ export const DELETE = async (request,{params})=>{
             return new Response('Unauthorized',{status:401});
         }
 
-        await property.deleteone();
+        await property.deleteOne();
         return new Response('property deleted',
     {
         status:200,

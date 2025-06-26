@@ -15,7 +15,7 @@ const PropertyContactForm = ({property}) => {
   const [wasSubmmited,setWasSubmmited]=useState(false);
 
   const handleSubmit=async(e)=>{
-    e.preverntDfault();
+    e.preventDefault();
     const data={
       name,
       email,
@@ -26,7 +26,7 @@ const PropertyContactForm = ({property}) => {
     }
 
     try {
-      const res=await fetch('/api/message',{
+      const res=await fetch('/api/messages',{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

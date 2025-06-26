@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import AuthProvider from "@/components/AuthProvider";
  import { ToastContainer } from 'react-toastify';
  import 'react-toastify/dist/ReactToastify.css';
- import { GloabalProvider } from "@/context/GlobalContext";
+ import { GlobalProvider } from "@/context/GlobalContext";
 
 export const metadata={
   title: 'PropertyPulse | Find The Perfect Rental',
@@ -43,7 +43,7 @@ export const metadata={
 // Layout Component that wraps around page content
 const Layout = ({ children }) => {
   return (
-    <GloabalProvider>
+    <GlobalProvider>
       <AuthProvider>
       <html lang='e'>
         <body>
@@ -54,7 +54,7 @@ const Layout = ({ children }) => {
         </body>
       </html>
       </AuthProvider>
-    </GloabalProvider>  
+    </GlobalProvider>  
   );
 };
 

@@ -1,7 +1,6 @@
 import connectDB from "@/config/database";
 import Message from "@/models/Message";
 import { getSessionUser } from "@/utils/getSessionUser";
-import { json } from "stream/consumers";
 
 export const dynamic='force-dynamic';
 
@@ -17,8 +16,14 @@ export const GET=async()=>{
 
         const {userId}=sessionUser;
 
-        const readMessages=await Message.find({recipient: userId,read: true}).sort({createdAt: -1}).populate('sender','username').populate('property','name');
-        const unreadMessages=await Message.find({recipient: userId,read: false}).sort({createdAt: -1}).populate('sender','username').populate('property','name');
+        const readMessages=await Message.find({recipient: userId,read: true})
+         .sort({createdAt: -1})
+         .populate('sender','username')
+         .populate('property','name');
+        const unreadMessages=await Message.find({recipient: userId,read: false})
+         .sort({createdAt: -1})
+         .populate('sender','username')
+         .populate('property','name');
         
         const messages=[...unreadMessages,...readMessages];
         return new Response(JSON.stringify(messages),{status:200});

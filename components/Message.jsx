@@ -11,7 +11,7 @@ const Message = ({message}) => {
   const {setUnreadCount}=useGlobalContext();
   const handleReadClick =async()=>{
     try {
-      const res=await fetch(`api/messages/${message._id}`,{
+      const res=await fetch(`/api/messages/${message._id}`,{
         method:'PUT'
       });
 
@@ -34,7 +34,7 @@ const Message = ({message}) => {
 
   const handleDeleteClick=async()=>{
     try {
-      const res=await fetch(`api/messages/${message._id}`,{
+      const res=await fetch(`/api/messages/${message._id}`,{
         method: 'DELETE'
       });
       if(res.status===200){
@@ -83,13 +83,13 @@ const Message = ({message}) => {
                     >{message.phone}</a
                   >
                 </li>
-                <li><strong>Received:</strong>{new Date(message.createdAt).toLocalString()}</li>
+                <li><strong>Received:</strong>{new Date(message.createdAt).toLocaleString()}</li>
               </ul>
               <button
                 onClick={handleReadClick}
-                className={`mt-4 mr-3 ${isRead? 'bg-grey-300' :'bg-blue-500 text-white'} py-1 px-3 rounded-md`}
+                className={`mt-4 mr-3 ${isRead? 'bg-gray-300' :'bg-blue-500 text-white'} py-1 px-3 rounded-md`}
               >
-                {isRead? 'Mark As New': 'Mark As Read'};
+                {isRead? 'Mark As New': 'Mark As Read'}
               </button>
               <button  onClick={handleDeleteClick} className="mt-4 bg-red-500 text-white py-1 px-3 rounded-md">
                 Delete
